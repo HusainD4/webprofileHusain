@@ -167,7 +167,7 @@
             <h2>Tentang Saya</h2>
             <div class="about-content">
                 <div class="about-img">
-                    <img src="assets/images/profiles/imgs.png" alt="Foto Husain" class="profile-img">
+                    <img class="lazy" class="lazy"src="assets/images/profiles/imgs.png" alt="Foto Husain" class="profile-img">
                 </div>
                 <div class="about-text">
                     <p>Nama saya Husain, saya berusia 20 tahun (pada tahun 2025). Saya sedang menempuh studi di jurusan Teknik Informatika di Politeknik Harapan Bersama Tegal, di mana saya mempelajari berbagai aspek teknologi dan digital.</p>
@@ -222,35 +222,35 @@
             <h2 style="padding-bottom: 20px;">Portofolio Saya</h2>
             <div class="portfolio-grid">
                 <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
-                    <img src="  assets/images/none.png" alt="Proyek 1">
+                    <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 1">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Sertifikat Juara 1 Photography</h3>
                         <p>Diraih pada tahun 2018</p>
                     </div>
                 </a>
                 <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
-                    <img src="  assets/images/none.png" alt="Proyek 2">
+                    <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 2">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Sertifikat Hsn Studio</h3>
                         <p>menjadi sponsorship di acara Tetegual yg ada di Slawi Tegal</p>
                     </div>
                 </a>
                 <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
-                    <img src="  assets/images/none.png" alt="Proyek 3">
+                    <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 3">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Sertifikat Lisensi Hsn Studio</h3>
                         <p>Lisensi berdagang Hsn Studio</p>
                     </div>
                 </a>
                 <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
-                    <img src="  assets/images/none.png" alt="Proyek 4">
+                    <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 4">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Galery Online</h3>
                         <p>Dokumentasi Saya</p>
                     </div>
                 </a>
                 <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
-                    <img src="  assets/images/none.png" alt="Proyek 5">
+                    <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 5">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Comming Soon...</h3>
                         <p></p>
@@ -282,12 +282,12 @@
                     </ul>
                 </div>
                 <div class="hobby-gallery">
-                    <img src="assets/images/profiles/best.jpg" alt="Foto 1">
-                    <img src="assets/images/profiles/i1.JPG" alt="Foto 2">
-                    <img src="assets/images/profiles/i2.JPG" alt="Foto 3">
-                    <img src="assets/images/profiles/i3.JPG" alt="Foto 4">
-                    <img src="assets/images/profiles/i4.JPG" alt="Foto 5">
-                    <img src="assets/images/profiles/i5.JPG" alt="Foto 6">
+                    <img class="lazy" class="lazy"class="lazy" src="assets/images/profiles/best.jpg" alt="Foto 1">
+                    <img class="lazy" class="lazy"class="lazy" src="assets/images/profiles/i1.JPG" alt="Foto 2">
+                    <img class="lazy" class="lazy"class="lazy" src="assets/images/profiles/i2.JPG" alt="Foto 3">
+                    <img class="lazy" class="lazy"class="lazy" src="assets/images/profiles/i3.JPG" alt="Foto 4">
+                    <img class="lazy" class="lazy"class="lazy" src="assets/images/profiles/i4.JPG" alt="Foto 5">
+                    <img class="lazy" class="lazy"class="lazy" src="assets/images/profiles/i5.JPG" alt="Foto 6">
                 </div>
             </div>
         </div>
@@ -298,7 +298,7 @@
             <h2>Bisnis Saya</h2>
             <div class="business-content">
                 <div class="business-img">
-                    <img src="assets/images/logo/LogoHsnStudio.png" alt="Hsn Studio">
+                    <img class="lazy" class="lazy"src="assets/images/logo/LogoHsnStudio.png" alt="Hsn Studio">
                 </div>
                 <div class="business-text">
                     <h3>Hsn Studio</h3>
@@ -606,5 +606,45 @@
 removeHtmlFromUrl(); 
   
     </script>
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+    // Pilih semua gambar dengan kelas 'lazy'
+    const lazyImages = document.querySelectorAll('.lazy');
+
+    // Fungsi untuk mengecek apakah gambar sudah masuk ke viewport
+    const isImageInView = (image) => {
+        const rect = image.getBoundingClientRect();
+        return rect.top >= 0 && rect.left >= 0 && rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) && rect.right <= (window.innerWidth || document.documentElement.clientWidth);
+    };
+
+    // Fungsi untuk memuat gambar
+    const loadLazyImage = (image) => {
+        const src = image.getAttribute('data-src');
+        if (src) {
+            image.src = src;
+            image.classList.remove('lazy');
+        }
+    };
+
+    // Pemantauan untuk gambar yang hampir masuk viewport
+    const lazyLoadImages = () => {
+        lazyImages.forEach(image => {
+            if (isImageInView(image)) {
+                loadLazyImage(image);
+            }
+        });
+    };
+
+    // Jalankan lazy loading saat scroll atau resize
+    window.addEventListener('scroll', lazyLoadImages);
+    window.addEventListener('resize', lazyLoadImages);
+
+    // Jalankan sekali untuk gambar yang sudah di-viewport saat halaman pertama kali dimuat
+    lazyLoadImages();
+});
+
+</script>
 </body>
 </html>
