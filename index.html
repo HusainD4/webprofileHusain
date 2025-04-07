@@ -1,0 +1,599 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Husain Profile</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- SweetAlert2 (buat popup lucu) -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="assets/images/logo/LogoHsnStudio.png">
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+        import { getDatabase, ref, push, set } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
+    
+        // Firebase Configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyCCRYX_sccuZyS6U219jupC3iXuU81SvIk",
+            authDomain: "hsnimageview.firebaseapp.com",
+            databaseURL: "https://hsnimageview-default-rtdb.firebaseio.com",
+            projectId: "hsnimageview",
+            storageBucket: "hsnimageview.firebasestorage.app",
+            messagingSenderId: "815454639020",
+            appId: "1:815454639020:web:b29867dccb7d9c10676009",
+            measurementId: "G-PK7Y8R7TWJ"
+        };
+    
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const database = getDatabase(app);  // Get reference to the database
+    
+        // Handle form submission
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+    
+            // Get form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+    
+            // Create a new reference in the 'messages' node
+            const newMessageRef = push(ref(database, 'messages'));
+    
+            // Save the form data to Firebase Realtime Database
+            set(newMessageRef, {
+                name: name,
+                email: email,
+                whatsapp: whatsapp,
+                subject: subject,
+                message: message,
+                timestamp: new Date().toISOString()
+            }).then(() => {
+                // Success - Show success notification
+                Swal.fire({
+                    title: 'Pesan Anda Berhasil Dikirim!',
+                    text: 'Terima kasih telah menghubungi kami. Kami akan segera merespon pesan Anda.',
+                    icon: 'success',
+                    confirmButtonText: 'OK',
+                    backdrop: `
+                        rgba(0, 0, 0, 0.4)
+                        url('https://media.tenor.com/rTG2nQ-jdsAAAAAC/success.gif') center top no-repeat
+                    `
+                });
+    
+                // Reset the form
+                document.getElementById('contactForm').reset();
+            }).catch((error) => {
+                // Error - Show error notification
+                showErrorNotificationHsn(error);
+            });
+        });
+    
+        // Show error notification function using SweetAlert2
+        function showErrorNotificationHsn(error) {
+            Swal.fire({
+                title: '😞 Aduhh Website nya lagi gabisa!',
+                html: `
+                    <p style="font-size:16px;">server lagi eror~</p>
+                    <p style="font-size:14px;">Harap bersabar yaa, kami sedang perbaiki masalahnya! 😓</p>
+                `,
+                imageUrl: 'https://media2.giphy.com/media/aYpmlCXgX9dc09dbpl/200w.gif?cid=6c09b952igx98dm7u2yctd75md2ipwqtjvskh8nglkdzpvrv&ep=v1_gifs_search&rid=200w.gif&ct=g',
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Server Error',
+                confirmButtonText: 'Lihat lainnya dulu deh 😔',
+                backdrop: `
+                    rgba(0,0,0,0.4)
+                    url("https://media.tenor.com/Vhwunh40c6EAAAAC/error.gif")
+                    center top
+                    no-repeat
+                `
+            });
+        }
+    </script>
+    
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="assets/css/style.css">
+    <script>
+        function toggleSidebar() {
+            document.getElementById('navMenu').classList.toggle('active');
+            document.getElementById('overlay').classList.toggle('active');
+        }
+    
+        function closeSidebar() {
+            document.getElementById('navMenu').classList.remove('active');
+            document.getElementById('overlay').classList.remove('active');
+        }
+    
+        function closeSidebarAndScroll(event) {
+            event.preventDefault(); // Mencegah default loncatan
+            const targetId = event.target.getAttribute("href").substring(1);
+            closeSidebar();
+            setTimeout(() => {
+                const targetElement = document.getElementById(targetId);
+                if (targetElement) {
+                    targetElement.scrollIntoView({ behavior: 'smooth' });
+                }
+            }, 0); // Tunggu sidebar close dulu
+        }
+    </script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>AOS.init();</script>
+    
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <div class="hamburger" id="hamburger" onclick="toggleSidebar()">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-menu" id="navMenu">
+                    <li><a href="#home" onclick="closeSidebarAndScroll(event)">Beranda</a></li>
+                    <li><a href="#about" onclick="closeSidebarAndScroll(event)">Tentang</a></li>
+                    <li><a href="#skills" onclick="closeSidebarAndScroll(event)">Keterampilan</a></li>
+                    <li><a href="#portfolio" onclick="closeSidebarAndScroll(event)">Portofolio</a></li>
+                    <li><a href="#hobby" onclick="closeSidebarAndScroll(event)">Hobi</a></li>
+                    <li><a href="#business" onclick="closeSidebarAndScroll(event)">Bisnis</a></li>
+                    <li><a href="#contact" onclick="closeSidebarAndScroll(event)">Kontak</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+    
+
+    <section id="home" class="hero">
+        <div class="hero-content">
+            <h1 class="animate-pop-in">Halo, Saya <span>Husain Mulyansyah</span></h1>
+            <p class="animate-pop-in" style="color: black;">Creative Director & Photographer</p>
+            <a href="#about" class="btn animate-pop-in">Selengkapnya</a>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <h2>Tentang Saya</h2>
+            <div class="about-content">
+                <div class="about-img">
+                    <img src="assets/images/profiles/imgs.png" alt="Foto Husain" class="profile-img">
+                </div>
+                <div class="about-text">
+                    <p>Nama saya Husain, saya berusia 20 tahun (pada tahun 2025). Saya sedang menempuh studi di jurusan Teknik Informatika di Politeknik Harapan Bersama Tegal, di mana saya mempelajari berbagai aspek teknologi dan digital.</p>
+                    <p>Selain kuliah, saya juga menjalankan bisnis di bidang fotografi, yaitu HSN Studio, yang saya dirikan sejak 2019. Melalui bisnis ini, saya tidak hanya mengasah kreativitas dalam fotografi, tetapi juga keterampilan dalam manajemen usaha dan pemasaran.</p>
+                    <p>Saya memiliki passion besar di dunia digital dan fotografi, dan selalu berusaha untuk mengembangkan diri di kedua bidang tersebut.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+
+    <section id="skills" class="skills" style="background-color: #EFEFEF;">
+        <div class="container">
+            <h2 style="padding-bottom: 20px;">Keterampilan Saya</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <i class="fas fa-camera"></i>
+                    <h3>Fotografi</h3>
+                    <p>Portrait, Product, Landscape, Event Photography</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-video"></i>
+                    <h3>Videografi</h3>
+                    <p>Video Produksi, Editing</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-paint-brush"></i>
+                    <h3>Desain</h3>
+                    <p>Graphic Design, UI/UX</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-lightbulb"></i>
+                    <h3>Creative Direction</h3>
+                    <p>Konsep Kreatif</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-code"></i>
+                    <h3>Mobile App Development</h3>
+                    <p>basic</p>
+                </div>
+                <div class="skill-card">
+                    <i class="fas fa-chart-line"></i>
+                    <h3>Digital Marketing</h3>
+                    <p>Social Media Strategy</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h2 style="padding-bottom: 20px;">Portofolio Saya</h2>
+            <div class="portfolio-grid">
+                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                    <img src="  assets/images/none.png" alt="Proyek 1">
+                    <div class="portfolio-overlay">
+                        <h3 style="color: white;">Sertifikat Juara 1 Photography</h3>
+                        <p>Diraih pada tahun 2018</p>
+                    </div>
+                </a>
+                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                    <img src="  assets/images/none.png" alt="Proyek 2">
+                    <div class="portfolio-overlay">
+                        <h3 style="color: white;">Sertifikat Hsn Studio</h3>
+                        <p>menjadi sponsorship di acara Tetegual yg ada di Slawi Tegal</p>
+                    </div>
+                </a>
+                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                    <img src="  assets/images/none.png" alt="Proyek 3">
+                    <div class="portfolio-overlay">
+                        <h3 style="color: white;">Sertifikat Lisensi Hsn Studio</h3>
+                        <p>Lisensi berdagang Hsn Studio</p>
+                    </div>
+                </a>
+                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                    <img src="  assets/images/none.png" alt="Proyek 4">
+                    <div class="portfolio-overlay">
+                        <h3 style="color: white;">Galery Online</h3>
+                        <p>Dokumentasi Saya</p>
+                    </div>
+                </a>
+                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                    <img src="  assets/images/none.png" alt="Proyek 5">
+                    <div class="portfolio-overlay">
+                        <h3 style="color: white;">Comming Soon...</h3>
+                        <p></p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="hobby" class="hobby" style="background-color: palegoldenrod;">
+        <div class="container">
+            <h2>Hobi Saya</h2>
+            <div class="hobby-content">
+                <div class="hobby-text">
+                    <h3>Fotografi</h3>
+                    <p class="justify-text">Fotografi bukan hanya sekadar pekerjaan bagi saya, tetapi juga sebuah passion yang mendalam. Sejak pertama kali memegang kamera, saya merasa tertarik untuk mengeksplorasi berbagai teknik dan gaya fotografi. Saya menikmati tantangan dalam menciptakan gambar yang tidak hanya indah secara visual, tetapi juga mampu mengisahkan sebuah cerita. Bagi saya, setiap foto adalah kesempatan untuk mengabadikan momen-momen berharga, baik itu dalam kehidupan pribadi maupun dalam berbagai acara yang saya tangani.</p>
+
+                    <p class="justify-text">Saya senang bereksperimen dengan pencahayaan, komposisi, dan perspektif untuk menciptakan foto yang unik dan berbeda. Selain itu, saya juga terus belajar tentang perkembangan teknologi dalam dunia fotografi, seperti penggunaan kamera canggih dan perangkat lunak pengeditan, untuk meningkatkan kualitas hasil karya saya.</p>
+                
+                    <p class="justify-text">Fotografi bagi saya adalah cara untuk melihat dunia dengan cara yang berbeda, dan saya merasa sangat puas setiap kali berhasil menangkap esensi sebuah momen. Melalui fotografi, saya juga dapat lebih terhubung dengan orang-orang dan menciptakan kenangan yang dapat dinikmati oleh banyak orang.</p>
+                
+                    <p>Beberapa genre favorit saya:</p>
+                    <ul>
+                        <li>Street Photography</li>
+                        <li>Portrait Photography</li>
+                        <li>Landscape Photography</li>
+                        <li>Product Photography</li>
+                        <li>double-exp Photography</li>
+                    </ul>
+                </div>
+                <div class="hobby-gallery">
+                    <img src="assets/images/profiles/best.jpg" alt="Foto 1">
+                    <img src="assets/images/profiles/i1.JPG" alt="Foto 2">
+                    <img src="assets/images/profiles/i2.JPG" alt="Foto 3">
+                    <img src="assets/images/profiles/i3.JPG" alt="Foto 4">
+                    <img src="assets/images/profiles/i4.JPG" alt="Foto 5">
+                    <img src="assets/images/profiles/i5.JPG" alt="Foto 6">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="business" class="business">
+        <div class="container">
+            <h2>Bisnis Saya</h2>
+            <div class="business-content">
+                <div class="business-img">
+                    <img src="assets/images/logo/LogoHsnStudio.png" alt="Hsn Studio">
+                </div>
+                <div class="business-text">
+                    <h3>Hsn Studio</h3>
+                    <p>Sebuah creative studio yang berfokus untuk kebutuhan bisnis dan personal. dan menjadi sahabat para pelajar</p>
+                    <p>Layanan yang kami tawarkan:</p>
+                    <ul>
+                        <li>Fotografi Profesional</li>
+                        <li>Videografi & Editing</li>
+                        <li>Pembuatan Konten Digital</li>
+                        <li>Branding & Desain Grafis</li>
+                    </ul>
+                    <a href="#" onclick="showErrorNotification(event)" target="_blank" class="btn">Kunjungi Website</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="social-media" class="social-media">
+        <div class="container">
+            <h2>Media Sosial</h2>
+            <div class="social-grid">
+                <a href="https://www.youtube.com/@SiHusen" target="_blank" class="social-card">
+                    <i class="fab fa-youtube"></i>
+                    <h3>Si Husen</h3>
+                    <p>Channel Perkuliahan</p>
+                </a>
+                <a href="https://www.youtube.com/@sistory2627" target="_blank" class="social-card">
+                    <i class="fab fa-youtube"></i>
+                    <h3>Si Story</h3>
+                    <p>Channel behind the scene dan video kenangan saya</p>
+                </a>
+                <a href="https://www.youtube.com/@Mysenns" target="_blank" class="social-card">
+                    <i class="fab fa-youtube"></i>
+                    <h3>MySens</h3>
+                    <p>Channel vlog pribadi</p>
+                </a>
+                <a href="https://www.instagram.com/si.husen" target="_blank" class="social-card">
+                    <i class="fab fa-instagram"></i>
+                    <h3>Instagram pribadi</h3>
+                    <p>Portofolio fotografi</p>
+                </a>
+                <a href="https://www.instagram.com/hsn_studio_tegal" target="_blank" class="social-card">
+                    <i class="fab fa-instagram"></i>
+                    <h3>Instagram Businnes</h3>
+                    <p>Akun pribadi</p>
+                </a>
+                <a href="https://www.linkedin.com/in/husain-mulyansyah/" target="_blank" class="social-card">
+                    <i class="fab fa-linkedin"></i>
+                    <h3>LinkedIn</h3>
+                    <p>Profil profesional</p>
+                </a>
+                <a href="https://github.com/HusainD4" target="_blank" class="social-card">
+                    <i class="fab fa-github"></i>
+                    <h3>GitHub</h3>
+                    <p>Proyek coding</p>
+                </a>
+                <a href="#" class="social-card" onclick="showCuteWarning(event)" style="background-color: red;">
+                    <i style="color: white;" class="fab fa-whatsapp"></i>
+                    <h3 style="color: white;">WhatsApp</h3>
+                    <p style="color: white;">Kontak langsung</p>
+                </a>
+                
+                <a href="#" onclick="showErrorNotificationHsn(event)" target="_blank" class="social-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>Website 1</h3>
+                    <p>Hsn Studio</p>
+                </a>
+                <a href="https://hsnview.netlify.app/" target="_blank" class="social-card">
+                    <i class="fas fa-globe"></i>
+                    <h3>Website Galery</h3>
+                    <p>Galery Online</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact">
+        <div class="container">
+            <h2>Hubungi Saya</h2>
+            <div class="contact-content">
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <input type="text" id="name" placeholder="Nama Lengkap" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" placeholder="Email" required>
+                    </div>
+                    <div class="form-group">
+                        <input type="tel" id="whatsapp" placeholder="Nomor WhatsApp">
+                    </div>
+                    <div class="form-group">
+                        <select id="subject" required>
+                            <option value="" disabled selected>Pilih Subjek</option>
+                            <option value="kerja-sama">Kerja Sama</option>
+                            <option value="pertanyaan">Pertanyaan</option>
+                            <option value="kritik-saran">Kritik & Saran</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="message" placeholder="Pesan Anda" required></textarea>
+                    </div>
+                    <button type="submit" class="btn">Kirim Pesan</button>
+                </form>
+                <div class="contact-info">
+                    <h3>Informasi Kontak</h3>
+                    <p><i class="fas fa-envelope"></i> husain@example.com</p>
+                    <p><i class="fas fa-phone"></i> +62 --- ---- ----</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Jawa Tengah, Indonesia</p>
+                    <div class="quick-links">
+                        <h3>Tautan Cepat</h3>
+                        <a href="#" onclick="showErrorNotification(event)"><i class="fas fa-file-pdf"></i> Download CV</a>
+                        <a href="#" onclick="showErrorNotification(event)"><i class="fas fa-book"></i> Portofolio PDF</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="thank-you">
+        <div class="container">
+            <h2>Terima Kasih</h2>
+            <p>Terima kasih telah mengunjungi profil saya. Jangan ragu untuk menghubungi saya jika Anda memiliki pertanyaan atau ingin berkolaborasi dalam proyek kreatif.</p>
+            <a href="#" class="btn" id="backToTopBtn">Kembali ke Atas</a>
+        </div>
+    </section>
+    
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <h3>Husain</h3>
+                    <p>Creative Director & Photographer</p>
+                </div>
+                <div class="footer-links">
+                    <h3>Tautan</h3>
+                    <ul>
+                        <li><a href="#home">Beranda</a></li>
+                        <li><a href="#portfolio">Portofolio</a></li>
+                        <li><a href="#business">Bisnis</a></li>
+                        <li><a href="#contact">Kontak</a></li>
+                    </ul>
+                </div>
+                <div class="footer-social">
+                    <h3>Media Sosial</h3>
+                    <div class="social-icons">
+                        <a href="https://www.youtube.com/@Mysenns"><i class="fab fa-youtube"></i></a>
+                        <a href="https://www.instagram.com/si.husen"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/in/husain-mulyansyah/"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" onclick="showCuteWarning(event)"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Husain Profile. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <a href="#home" class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <script src="script.js"></script>
+    <script>
+        function showCuteWarning(event) {
+            event.preventDefault(); // biar gak langsung redirect
+    
+            Swal.fire({
+                title: '😝 Maaf yaaa!',
+                html: `
+                    <p style="font-size:16px;">WA aku <b>Private</b> dulu nih~</p>
+                    <p style="font-size:14px;">Gaboleh di-spill 😆✌️</p>
+                `,
+                imageUrl: 'https://media4.giphy.com/media/b9R9o1shDUinLqnoOJ/200w.gif?cid=6c09b952u3sxvbx3q0u00maa5k36ywgozw0x34hmucgtaa79&ep=v1_gifs_search&rid=200w.gif&ct=g',
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Lucu banget kan~',
+                confirmButtonText: 'Oke deh! 😇',
+                backdrop: `
+                    rgba(0,0,0,0.4)
+                    url("https://media.tenor.com/3K6d1Jzv7lEAAAAC/cute-love.gif")
+                    center top
+                    no-repeat
+                `
+            });
+        }
+    </script>
+    <script>
+        function showErrorNotification(event) {
+            event.preventDefault(); // biar gak langsung redirect
+    
+            Swal.fire({
+                title: '😞 Aduhh maaf nih!',
+                html: `
+                    <p style="font-size:16px;">Lagi gak bisa download, server lagi eror~</p>
+                    <p style="font-size:14px;">Harap bersabar yaa, kami sedang perbaiki masalahnya! 😓</p>
+                `,
+                imageUrl: 'https://media2.giphy.com/media/aYpmlCXgX9dc09dbpl/200w.gif?cid=6c09b952igx98dm7u2yctd75md2ipwqtjvskh8nglkdzpvrv&ep=v1_gifs_search&rid=200w.gif&ct=g', // Ganti dengan GIF yang sesuai
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Server Error',
+                confirmButtonText: 'Oke deh, sabar dulu ya! 😔',
+                backdrop: `
+                    rgba(0,0,0,0.4)
+                    url("https://media.tenor.com/Vhwunh40c6EAAAAC/error.gif")
+                    center top
+                    no-repeat
+                `
+            });
+        }
+    </script>
+    <script>
+        function showErrorNotificationHsn(event) {
+            event.preventDefault(); // biar gak langsung redirect
+    
+            Swal.fire({
+                title: '😞 Aduhh Website nya lagi gabisa!',
+                html: `
+                    <p style="font-size:16px;">server lagi eror~</p>
+                    <p style="font-size:14px;">Harap bersabar yaa, kami sedang perbaiki masalahnya! 😓</p>
+                `,
+                imageUrl: 'https://media2.giphy.com/media/aYpmlCXgX9dc09dbpl/200w.gif?cid=6c09b952igx98dm7u2yctd75md2ipwqtjvskh8nglkdzpvrv&ep=v1_gifs_search&rid=200w.gif&ct=g', // Ganti dengan GIF yang sesuai
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Server Error',
+                confirmButtonText: 'Lihat lainnya dulu deh 😔',
+                backdrop: `
+                    rgba(0,0,0,0.4)
+                    url("https://media.tenor.com/Vhwunh40c6EAAAAC/error.gif")
+                    center top
+                    no-repeat
+                `
+            });
+        }
+    </script>
+    
+    <!-- <script>
+        // Handling form submission
+        document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+
+            // Getting form data
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const whatsapp = document.getElementById('whatsapp').value;
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value;
+
+            // Create a unique ID for each form submission (optional, based on timestamp)
+            const newMessageRef = database.ref('messages').push();
+
+            // Save the form data to Firebase Realtime Database
+            newMessageRef.set({
+                name: name,
+                email: email,
+                whatsapp: whatsapp,
+                subject: subject,
+                message: message,
+                timestamp: new Date().toISOString() // Optional: add a timestamp to track when the message was sent
+            }).then(() => {
+                alert('Pesan Anda berhasil dikirim!');
+                document.getElementById('contactForm').reset(); // Clear the form after submission
+            }).catch((error) => {
+                console.error('Error sending message to Firebase:', error);
+                alert('Terjadi kesalahan, coba lagi nanti!');
+            });
+        });
+    </script> -->
+
+
+    <script>
+        // Add event listener to the "Kembali ke Atas" button
+        document.getElementById('backToTopBtn').addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent the default behavior (anchor link jumping)
+    
+            // Show the SweetAlert notification
+            Swal.fire({
+                title: 'Terima Kasih!',
+                text: 'Terima kasih telah mengunjungi profil saya. Semoga kita bisa bekerja sama suatu saat nanti!',
+                icon: 'success',
+                confirmButtonText: 'Kembali ke Atas',
+                backdrop: `
+                    rgba(0,0,0,0.4)
+                    url("https://media.tenor.com/L1KZh0Xxh0EAAAAC/thank-you-thanks.gif")
+                    center top
+                    no-repeat
+                `
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    // Redirect the user to sampai.html after clicking OK
+                    window.location.href = 'index.html';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

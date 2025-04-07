@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <style>
+      /* Reset dasar */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+      }
+
+      body {
+        background-color: #f2f7ff;
+        color: #333;
+        padding: 40px 20px;
+      }
+
+      h2 {
+        text-align: center;
+        margin-bottom: 30px;
+        font-size: 2rem;
+        color: #1e3a8a;
+      }
+
+      table {
+        width: 100%;
+        max-width: 1000px;
+        margin: 0 auto;
+        border-collapse: collapse;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+      }
+
+      thead {
+        background-color: #1e3a8a;
+        color: #fff;
+      }
+
+      th,
+      td {
+        padding: 15px 20px;
+        text-align: left;
+        border-bottom: 1px solid #e0e0e0;
+        font-size: 14px;
+      }
+
+      th {
+        font-weight: bold;
+        font-size: 15px;
+      }
+
+      tbody tr:hover {
+        background-color: #f0f4ff;
+      }
+
+      @media (max-width: 768px) {
+        table,
+        thead,
+        tbody,
+        th,
+        td,
+        tr {
+          display: block;
+        }
+
+        thead {
+          display: none;
+        }
+
+        tr {
+          margin-bottom: 15px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+          padding: 10px;
+        }
+
+        td {
+          text-align: left;
+          position: relative;
+          padding-left: 10%;
+        }
+
+        td::before {
+          content: attr(data-label);
+          position: absolute;
+          left: 20px;
+          width: 45%;
+          padding-right: 10px;
+          font-weight: bold;
+          text-align: left;
+          color: #1e3a8a;
+        }
+      }
+    </style>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pesan Anda</title>
+    <script type="module">
+      // Import necessary Firebase modules
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+      import {
+        getDatabase,
+        ref,
+        get,
+      } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+
+      // Firebase Configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyCCRYX_sccuZyS6U219jupC3iXuU81SvIk",
+        authDomain: "hsnimageview.firebaseapp.com",
+        databaseURL: "https://hsnimageview-default-rtdb.firebaseio.com",
+        projectId: "hsnimageview",
+        storageBucket: "hsnimageview.firebasestorage.app",
+        messagingSenderId: "815454639020",
+        appId: "1:815454639020:web:b29867dccb7d9c10676009",
+        measurementId: "G-PK7Y8R7TWJ",
+      };
+
+      // Initialize Firebase
+      const app = initializeApp(firebaseConfig);
+      const database = getDatabase(app); // Get reference to the database
+
+      // Fetch messages from Firebase
+      window.onload = function () {
+        const messagesRef = ref(database, "messages");
+        get(messagesRef)
+          .then((snapshot) => {
+            if (snapshot.exists()) {
+              const messages = snapshot.val();
+              displayMessages(messages);
+            } else {
+              document.getElementById("messageTable").innerHTML =
+                "No messages found.";
+            }
+          })
+          .catch((error) => {
+            console.error("Error fetching data from Firebase:", error);
+          });
+      };
+
+      // Display messages on the page
+      function displayMessages(messages) {
+        const tableBody = document.getElementById("messageTable");
+        for (const messageId in messages) {
+          const message = messages[messageId];
+          const row = document.createElement("tr");
+
+          const nameCell = document.createElement("td");
+          nameCell.textContent = message.name;
+          row.appendChild(nameCell);
+
+          const emailCell = document.createElement("td");
+          emailCell.textContent = message.email;
+          row.appendChild(emailCell);
+
+          const whatsappCell = document.createElement("td");
+          whatsappCell.textContent = message.whatsapp || "N/A";
+          row.appendChild(whatsappCell);
+
+          const subjectCell = document.createElement("td");
+          subjectCell.textContent = message.subject;
+          row.appendChild(subjectCell);
+
+          const messageCell = document.createElement("td");
+          messageCell.textContent = message.message;
+          row.appendChild(messageCell);
+
+          const timestampCell = document.createElement("td");
+          timestampCell.textContent = new Date(
+            message.timestamp
+          ).toLocaleString();
+          row.appendChild(timestampCell);
+
+          tableBody.appendChild(row);
+        }
+      }
+    </script>
+    <script>
+      emailCell.textContent = message.email;
+      emailCell.setAttribute("data-label", "Email");
+
+      whatsappCell.textContent = message.whatsapp || "N/A";
+      whatsappCell.setAttribute("data-label", "WhatsApp");
+
+      subjectCell.textContent = message.subject;
+      subjectCell.setAttribute("data-label", "Subjek");
+
+      messageCell.textContent = message.message;
+      messageCell.setAttribute("data-label", "Pesan");
+
+      timestampCell.textContent = new Date(message.timestamp).toLocaleString();
+      timestampCell.setAttribute("data-label", "Waktu");
+    </script>
+  </head>
+  <body>
+    <h2>Kontak Masuk</h2>
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Nama</th>
+          <th>Email</th>
+          <th>WhatsApp</th>
+          <th>Subjek</th>
+          <th>Pesan</th>
+          <th>Waktu</th>
+        </tr>
+      </thead>
+      <tbody id="messageTable">
+        <!-- Messages will be displayed here -->
+      </tbody>
+    </table>
+  </body>
+</html>
