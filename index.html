@@ -221,35 +221,35 @@
         <div class="container">
             <h2 style="padding-bottom: 20px;">Portofolio Saya</h2>
             <div class="portfolio-grid">
-                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                <a href="" onclick="showErrorNotificationHsn(event)" target="_blank" class="portfolio-item">
                     <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 1">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Sertifikat Juara 1 Photography</h3>
                         <p>Diraih pada tahun 2018</p>
                     </div>
                 </a>
-                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                <a href="" onclick="showErrorNotificationHsn(event)" target="_blank" class="portfolio-item">
                     <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 2">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Sertifikat Hsn Studio</h3>
                         <p>menjadi sponsorship di acara Tetegual yg ada di Slawi Tegal</p>
                     </div>
                 </a>
-                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                <a href="" onclick="showErrorNotificationHsn(event)" target="_blank" class="portfolio-item">
                     <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 3">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Sertifikat Lisensi Hsn Studio</h3>
                         <p>Lisensi berdagang Hsn Studio</p>
                     </div>
                 </a>
-                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                <a href="" onclick="showErrorNotificationHsn(event)" target="_blank" class="portfolio-item">
                     <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 4">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Galery Online</h3>
                         <p>Dokumentasi Saya</p>
                     </div>
                 </a>
-                <a href="" onclick="showErrorNotification(event)" target="_blank" class="portfolio-item">
+                <a href="" onclick="showErrorNotificationHsnComming(event)" target="_blank" class="portfolio-item">
                     <img class="lazy" class="lazy"src="  assets/images/none.png" alt="Proyek 5">
                     <div class="portfolio-overlay">
                         <h3 style="color: white;">Comming Soon...</h3>
@@ -516,12 +516,36 @@
             event.preventDefault(); // biar gak langsung redirect
     
             Swal.fire({
-                title: '😞 Aduhh Website nya lagi gabisa!',
+                title: '😞 Yah...',
                 html: `
                     <p style="font-size:16px;">server lagi eror~</p>
                     <p style="font-size:14px;">Harap bersabar yaa, kami sedang perbaiki masalahnya! 😓</p>
                 `,
                 imageUrl: 'https://media2.giphy.com/media/aYpmlCXgX9dc09dbpl/200w.gif?cid=6c09b952igx98dm7u2yctd75md2ipwqtjvskh8nglkdzpvrv&ep=v1_gifs_search&rid=200w.gif&ct=g', // Ganti dengan GIF yang sesuai
+                imageWidth: 150,
+                imageHeight: 150,
+                imageAlt: 'Server Error',
+                confirmButtonText: 'Lihat lainnya dulu deh 😔',
+                backdrop: `
+                    rgba(0,0,0,0.4)
+                    url("https://media.tenor.com/Vhwunh40c6EAAAAC/error.gif")
+                    center top
+                    no-repeat
+                `
+            });
+        }
+    </script>
+    <script>
+        function showErrorNotificationHsnComming(event) {
+            event.preventDefault(); // biar gak langsung redirect
+    
+            Swal.fire({
+                title: '😞 Yah...',
+                html: `
+                    <p style="font-size:16px;">server lagi eror~</p>
+                    <p style="font-size:14px;">Harap bersabar yaa, kami sedang perbaiki masalahnya! 😓</p>
+                `,
+                imageUrl: 'https://assets-v2.lottiefiles.com/a/07861158-1176-11ee-9d24-6b0a315e1563/G2xmdwnVee.gif', // Ganti dengan GIF yang sesuai
                 imageWidth: 150,
                 imageHeight: 150,
                 imageAlt: 'Server Error',
